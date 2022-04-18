@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-import { motion, useMotionValue } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import { SportsRugbySharp } from "@material-ui/icons";
 
 const Wrapper = styled.div`
@@ -11,17 +11,6 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const BiggerBox = styled.div`
-  width: 600px;
-  height: 600px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`;
-
 const Box = styled(motion.div)`
   width: 200px;
   height: 200px;
@@ -30,20 +19,15 @@ const Box = styled(motion.div)`
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 `;
 
-const boxVariants = {
-  hover: { scale: 1.3, rotateZ: 90 },
-  click: { scale: 1, borderRadius: "100px" },
-};
-
 function App() {
-  const x = useMotionValue(0); // react state가 아니라서 motionValue가 바뀌어도 컴포넌트 재렌더링은 이루어지지 않음
-  useEffect(() => {
-    x.onChange(() => console.log(x.get()));
-  }, [x]);
+  const x = useMotionValue(0);
+  const scale = useTransform(x, [-800, 0, 800], [2, 1, 0.1]);
+  // useEffect(() => {
+  //   value.onChange(() => console.log(value.get()));
+  // }, [x]);
   return (
     <Wrapper>
-      <button onClick={() => x.set(200)}>Click me</button>
-      <Box style={{ x }} drag="x" dragSnapToOrigin />
+      <Box style={{ x, scale }} drag="x" dragSnapToOrigin />
     </Wrapper>
   );
 }
