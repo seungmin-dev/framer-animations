@@ -27,57 +27,27 @@ const Box = styled(motion.div)`
   font-size: 26px;
 `;
 
-const box = {
-  entry: (back: boolean) => ({
-    x: back ? -500 : 500,
-    opacity: 0,
-    scale: 0,
-  }),
-  center: {
-    x: 0,
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-    },
-  },
-  exit: (back: boolean) => ({
-    x: back ? 500 : -500,
-    opacity: 0,
-    scale: 0,
-    transition: {
-      duration: 0.2,
-    },
-  }),
-};
+const Circle = styled(motion.div)`
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: blue;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+`;
 
 function App() {
-  const [visible, setVisible] = useState(1);
-  const [back, setBack] = useState(false);
-  const next = () => {
-    setBack(false);
-    setVisible((prev) => (prev === 10 ? 1 : prev + 1));
-  };
-  const prev = () => {
-    setBack(true);
-    setVisible((prev) => (prev === 1 ? 10 : prev - 1));
-  };
+  const [clicked, setClicked] = useState(false);
+  const toggleClicked = () => setClicked((prev) => !prev);
   return (
-    <Wrapper>
-      <AnimatePresence custom={back}>
-        <Box
-          custom={back}
-          variants={box}
-          initial="entry"
-          animate="center"
-          exit="exit"
-          key={visible}
-        >
-          {visible}
-        </Box>
-      </AnimatePresence>
-      <button onClick={prev}>prev</button>
-      <button onClick={next}>next</button>
+    <Wrapper onClick={toggleClicked}>
+      <Box
+        style={{
+          justifyContent: clicked ? "center" : "flex-start",
+          alignItems: clicked ? "center" : "flex-start",
+        }}
+      >
+        <Circle layout />
+      </Box>
     </Wrapper>
   );
 }
