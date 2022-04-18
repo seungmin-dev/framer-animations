@@ -57,7 +57,6 @@ table {
 }
 body {
   font-family: 'Red Hat Mono', monospace;
-  background:linear-gradient(135deg,#e09,#d0e);
 }
 a {
   text-decoration: none;
